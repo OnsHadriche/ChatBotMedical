@@ -84,7 +84,7 @@ $(document).ready(function () {
         $("#text").val("");
         $("#messageFormeight").append(userHtml);
 
-        $.post("/get", { msg: rawText }).done(function (data) {
+        $.post("/get_mesg_chat_medical", { msg: rawText }).done(function (data) {
             const botHtml = `
             <div class="d-flex justify-content-start mb-4">
                 <div class="img_cont_msg">
