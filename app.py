@@ -17,7 +17,7 @@ load_dotenv()
 def index():
     return render_template('chatbot.html')
 
-@app.rout("/get_mesg_chat_medical", methods =["GET","POST"])
+@app.route("/get_mesg_chat_medical", methods =["GET","POST"])
 def chatbot():
     msg = request.form['msg']
     input = msg
