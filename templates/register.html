@@ -497,13 +497,31 @@
             $btn.find('.btn-loader').show();
 
             // Simulate API call
-            setTimeout(function() {
-                showToast("Account created successfully! Redirecting...", "success");
-                
-                setTimeout(function() {
-                    window.location.href = '/login';
-                }, 1500);
-            }, 2000);
+            $.ajax({
+                url:"/register",
+                method:'POST',
+                contentType:'application/json',
+                data:JSON.stringify({
+                    fullname :  $("#fullname").val().trim(),
+                    email:      $("#email").val().trim(),
+                    phone:      $("#phone").val().trim(),
+                    password:   $("#password").val(),
+                    newsletter: $("#newsletter").is(':checked')
+                }),
+                success: function(response) {
+                    console.log("✅ Success:", response);
+                    showToast("Account created! Redirecting...", "success");
+                    setTimeout(() => window.location.href = response.redirect, 1500);
+                },
+                error: function(xhr) {
+                    console.log("❌ Error:", xhr.responseJSON);
+                    const msg = xhr.responseJSON?.message || 'Registration failed';
+                    showAlert(msg, 'error');
+                    $btn.prop('disabled', false);
+                    $btn.find('.btn-text').show();
+                    $btn.find('.btn-loader').hide();
+                }
+            })
         });
 
         // ==========================================
